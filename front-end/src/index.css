@@ -1,0 +1,105 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+#player {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 25px 3% 25px 3%;
+    display: grid;
+    grid-template-areas: "buttons-area volume-area seek-area";
+    grid-template-columns: auto auto 1fr;
+    gap: 10px;
+}
+
+#buttons-container {
+    grid-area: buttons-area;
+    display: flex;
+    align-items: center;
+    background-color: aqua;
+}
+
+#buttons-container > div:first-child {
+    margin-right: 10px;
+}
+
+#buttons-container > div:last-child {
+    margin-left: 10px;
+}
+
+#buttons-container > div:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#buttons-container > div:nth-child(2) > div:last-child {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    min-width: 75px;
+}
+
+#volume-container {
+    grid-area: volume-area;
+    background-color: bisque;
+}
+
+#seek-container {
+    grid-area: seek-area;
+    background-color: burlywood;
+}
+
+#play-button {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    border: 0;
+    background-color: gray;
+}
+
+#shuffle-button {
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    border: 0;
+    background-color: gray;
+}
+
+#loop-button {
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    border: 0;
+    background-color: gray;
+    margin-left: auto;
+}
+
+#prev-button {
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    border: 0;
+    background-color: gray;
+    margin-left: auto;
+}
+
+#next-button {
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    border: 0;
+    background-color: gray;
+    margin-left: auto;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+*:focus {
+    outline: none;
+}
