@@ -4,7 +4,7 @@ import Player from "./Player";
 export default class App extends React.Component {
     render() {
         return (
-            <Player />
+            <Player id="player" />
         );
     }
 }

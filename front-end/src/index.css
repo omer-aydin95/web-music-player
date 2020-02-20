@@ -12,14 +12,22 @@ html, body {
     display: grid;
     grid-template-areas: "buttons-area volume-area seek-area";
     grid-template-columns: auto auto 1fr;
-    gap: 10px;
+    gap: 20px;
+    background-color: cadetblue;
+}
+
+.player-buttons {
+    background-color: gray;
+}
+
+.player-buttons:hover {
+    cursor: pointer;
 }
 
 #buttons-container {
     grid-area: buttons-area;
     display: flex;
     align-items: center;
-    background-color: aqua;
 }
 
 #buttons-container > div:first-child {
@@ -45,7 +53,26 @@ html, body {
 
 #volume-container {
     grid-area: volume-area;
-    background-color: bisque;
+}
+
+.slider-container {
+    border: 1px solid black;
+    border-radius: 20px;
+}
+
+.slider {
+    width: 9px;
+    height: 9px;
+    border-radius: 100%;
+    transform: scale(3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.slider > svg {
+    transform: scale(0.3) translate(-1px, -1px);
 }
 
 #seek-container {
@@ -58,7 +85,6 @@ html, body {
     height: 50px;
     border-radius: 100%;
     border: 0;
-    background-color: gray;
 }
 
 #shuffle-button {
@@ -66,7 +92,6 @@ html, body {
     height: 30px;
     border-radius: 100%;
     border: 0;
-    background-color: gray;
 }
 
 #loop-button {
@@ -74,7 +99,6 @@ html, body {
     height: 30px;
     border-radius: 100%;
     border: 0;
-    background-color: gray;
     margin-left: auto;
 }
 
@@ -83,7 +107,6 @@ html, body {
     height: 30px;
     border-radius: 100%;
     border: 0;
-    background-color: gray;
     margin-left: auto;
 }
 
@@ -92,7 +115,6 @@ html, body {
     height: 30px;
     border-radius: 100%;
     border: 0;
-    background-color: gray;
     margin-left: auto;
 }
 
