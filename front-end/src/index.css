@@ -1,3 +1,7 @@
+html {
+    font-family: 'Quicksand', sans-serif;
+}
+
 html, body {
     margin: 0;
     padding: 0;
@@ -12,16 +16,25 @@ html, body {
     display: grid;
     grid-template-areas: "buttons-area volume-area seek-area";
     grid-template-columns: auto auto 1fr;
-    gap: 20px;
-    background-color: cadetblue;
+    gap: 30px;
+    background-color: #30475e;
 }
 
 .player-buttons {
-    background-color: gray;
+    background-color: #f1935c;
 }
 
 .player-buttons:hover {
     cursor: pointer;
+    background-color: #e7b2a5;
+}
+
+.player-buttons:active {
+    background-color: #ba6b57;
+}
+
+.player-buttons > svg {
+    color: #30475e;
 }
 
 #buttons-container {
@@ -56,7 +69,7 @@ html, body {
 }
 
 .slider-container {
-    border: 1px solid black;
+    border: 1px solid #f1935c;
     border-radius: 20px;
 }
 
@@ -77,7 +90,24 @@ html, body {
 
 #seek-container {
     grid-area: seek-area;
-    background-color: burlywood;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+#seek-container > div:first-child {
+    color: white;
+    font-weight: 700;
+}
+
+#seek-container > div:nth-child(2) {
+    display: flex;
+    color: white;
+    font-weight: 300;
+}
+
+#seek-container > div:nth-child(2) > span:last-child {
+    margin-left: auto;
 }
 
 #play-button {

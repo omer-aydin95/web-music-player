@@ -8,8 +8,6 @@ export default class RangeButton extends React.Component {
             sliderTop: 50
         };
 
-        this.sliderTop = 50;
-
         this.onMouseDown = this.onMouseDown.bind(this);
 
         window.onmouseup = (event) => window.onmousemove = null;
@@ -19,25 +17,25 @@ export default class RangeButton extends React.Component {
         let diff = 0;
 
         if(this.props.orientation == "vertical") {
-            diff = eventElement.clientY - this.sliderContainerTop - this.sliderTop;
+            diff = eventElement.clientY - this.sliderContainerTop - this.state.sliderTop;
         }
 
         window.onmousemove = (eventWindow) => {
             if(this.props.orientation == "vertical") {
                 if((eventWindow.clientY > this.sliderContainerTop && eventWindow.clientY < (this.sliderContainerTop + this.sliderContainerHeight)) ||
-                    (this.sliderTop > 0 && this.sliderTop < this.sliderContainerHeight)) {
+                    (this.state.sliderTop > 0 && this.state.sliderTop < this.sliderContainerHeight)) {
                         this.setState({
                             sliderTop: (eventWindow.clientY - this.sliderContainerTop - diff)
                         });
                 }
 
-                if(this.sliderTop < 0) {
+                if(this.state.sliderTop < 0) {
                     this.setState({
                         sliderTop: 0
                     });
                 }
 
-                if(this.sliderTop > this.sliderContainerHeight) {
+                if(this.state.sliderTop > this.sliderContainerHeight) {
                     this.setState({
                         sliderTop: this.sliderContainerHeight
                     });
@@ -52,19 +50,23 @@ export default class RangeButton extends React.Component {
 
     componentDidUpdate() {
         if(this.props.orientation == "vertical") {
-            if(this.sliderTop < 0) {
+            if(this.state.sliderTop < 0) {
                 this.setState({
                     sliderTop: 0
                 });
+
+                this.props.setVolume(0);
             }
     
-            if(this.sliderTop > this.sliderContainerHeight) {
+            if(this.state.sliderTop > this.sliderContainerHeight) {
                 this.setState({
                     sliderTop: this.sliderContainerHeight
                 });
+
+                this.props.setVolume(100);
             }
-    
-            this.sliderTop = this.state.sliderTop;
+
+            this.props.setVolume((100 - this.state.sliderTop) / 100);
         }
     }
 
