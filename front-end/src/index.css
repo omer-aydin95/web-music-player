@@ -12,7 +12,7 @@ html, body {
     bottom: 0;
     left: 0;
     width: 100%;
-    padding: 25px 3% 25px 3%;
+    padding: 25px 25px 25px 25px;
     display: grid;
     grid-template-areas: "buttons-area volume-area seek-area";
     grid-template-columns: auto auto 1fr;

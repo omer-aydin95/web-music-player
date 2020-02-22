@@ -52,7 +52,7 @@ export default class Player extends React.Component {
     }
 
     componentDidMount() {
-        this.audioInPlay = document.getElementById("audioInPlay");
+        this.audioInPlay = document.getElementById("audio-in-play");
     }
 
     formatSeconds(seconds) {
@@ -81,7 +81,7 @@ export default class Player extends React.Component {
     render() {
         return (
             <div id={this.props.id}>
-                <audio id="audioInPlay" onTimeUpdate={this.onTimeUpdate} onLoadedMetadata={this.onLoadedMetadata}>
+                <audio id="audio-in-play" onTimeUpdate={this.onTimeUpdate} onLoadedMetadata={this.onLoadedMetadata}>
                     <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" />
                 </audio>
 
