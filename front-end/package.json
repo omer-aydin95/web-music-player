@@ -1,5 +1,5 @@
 {
-  "name": "web-music-player",
+  "name": "web-music-player-fe",
   "version": "1.0.0",
   "description": "a web music player front-end that have built with react",
   "scripts": {

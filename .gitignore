@@ -1,4 +1,5 @@
 package-lock.json
+db-config.js
 
 # Created by https://www.gitignore.io/api/node,eclipse,intellij,netbeans,webstorm,webstorm+all,webstorm+iml,intellij+all,intellij+iml,visualstudio,visualstudiocode
 # Edit at https://www.gitignore.io/?templates=node,eclipse,intellij,netbeans,webstorm,webstorm+all,webstorm+iml,intellij+all,intellij+iml,visualstudio,visualstudiocode
