@@ -10,8 +10,12 @@ export default class RangeButton extends React.Component {
         };
 
         this.onMouseDown = this.onMouseDown.bind(this);
+        this.onMouseUp = this.onMouseUp.bind(this);
+        this.onMouseUpWindow = this.onMouseUpWindow.bind(this);
+        this.onMouseDownContainer = this.onMouseDownContainer.bind(this);
+        this.reComputeSliderPosition = this.reComputeSliderPosition.bind(this);
 
-        window.onmouseup = (event) => window.onmousemove = null;
+        window.onmouseup = this.onMouseUpWindow;
     }
 
     onMouseDown(eventElement) {
@@ -44,6 +48,8 @@ export default class RangeButton extends React.Component {
                     });
                 }
             } else {
+                this.updateItself = true;
+
                 if((eventWindow.clientX > this.sliderContainerLeft && eventWindow.clientX < (this.sliderContainerLeft + this.sliderContainerWidth)) ||
                     (this.state.sliderLeft > 0 && this.state.sliderLeft < this.sliderContainerWidth)) {
                         this.setState({
@@ -68,6 +74,29 @@ export default class RangeButton extends React.Component {
 
     onMouseUp(event) {
         window.onmousemove = null;
+
+        this.updateItself = false;
+    }
+
+    onMouseUpWindow(event) {
+        window.onmousemove = null;
+
+        this.updateItself = false;
+    }
+
+    onMouseDownContainer(event) {
+        if(this.props.orientation == "vertical") {
+            this.setState({
+                sliderTop: event.clientY - this.sliderContainerTop
+            })
+        }
+        else {
+            this.updateItself = true;
+
+            this.setState({
+                sliderLeft: event.clientX - this.sliderContainerLeft
+            });
+        }
     }
 
     componentDidUpdate() {
@@ -90,17 +119,31 @@ export default class RangeButton extends React.Component {
 
             this.props.setVolume((100 - this.state.sliderTop) / 100);
         } else {
+            if(!this.updateItself) {
+                this.setState({
+                    sliderLeft: (this.sliderContainerWidth * this.props.currentTimeInSec) / this.props.durationInSec
+                });
+
+                return;
+            }
+
             if(this.state.sliderLeft < 0) {
                 this.setState({
                     sliderLeft: 0
                 });
+
+                this.props.setCurrentTime(0);
             }
     
             if(this.state.sliderLeft > this.sliderContainerWidth) {
                 this.setState({
                     sliderLeft: this.sliderContainerWidth
                 });
+
+                this.props.setCurrentTime(this.props.durationInSec);
             }
+
+            this.props.setCurrentTime((this.state.sliderLeft * this.props.durationInSec) / this.sliderContainerWidth);
         }
     }
 
@@ -133,21 +176,54 @@ export default class RangeButton extends React.Component {
                     document.getElementById("volume-container")
                 ).getPropertyValue("width"), 10
             ) + 85;
-        }
 
-        window.onresize = (event) => {
-            this.sliderContainerWidth = parseInt(
-                window.getComputedStyle(
-                    document.getElementById(this.props.id)
-                ).getPropertyValue("width"), 10
-            );
+            window.onresize = (event) => {
+                const prevSliderContainerWidth = this.sliderContainerWidth;
+
+                this.sliderContainerWidth = parseInt(
+                    window.getComputedStyle(
+                        document.getElementById(this.props.id)
+                    ).getPropertyValue("width"), 10
+                );
+
+                this.reComputeSliderPosition(prevSliderContainerWidth);
+            }
         }
     }
 
-    render() {
+    reComputeSliderPosition(prevSliderContainerWidth) {
+        this.setState(
+            prevState => {
+                let newLeft = (prevState.sliderLeft * this.sliderContainerWidth) / prevSliderContainerWidth;
+
+                return (
+                    {
+                        sliderLeft: newLeft
+                    }
+                );
+            }
+        );
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        if(this.props.orientation == "vertical") {
+            if(this.state.sliderTop == nextState.sliderTop) {
+                return false;
+            }
+        } else {
+            if(this.state.sliderLeft == nextState.sliderLeft && this.props.currentTimeInSec == nextProps.currentTimeInSec) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    render() {console.log(this.props.id);
         if(this.props.orientation == "vertical") {
             return (
-                <div id={this.props.id} className="slider-container" style={{width: "10px", height: "100px"}}>
+                <div id={this.props.id} className="slider-container" onMouseDown={this.onMouseDownContainer} 
+                style={{width: "10px", height: "100px"}}>
                     <div onMouseDown={this.onMouseDown} onMouseUp={this.onMouseUp}
                     className="player-buttons slider" style={{top: this.state.sliderTop + "px"}}>
                         {this.props.children}
@@ -156,7 +232,8 @@ export default class RangeButton extends React.Component {
             );
         } else {
             return (
-                <div id={this.props.id} className="slider-container" style={{width: "100%", height: "10px"}}>
+                <div id={this.props.id} onMouseDown={this.onMouseDownContainer} className="slider-container" 
+                style={{width: "100%", height: "10px"}}>
                     <div onMouseDown={this.onMouseDown} onMouseUp={this.onMouseUp}
                     className="player-buttons slider" style={{left: this.state.sliderLeft + "px"}}>
                         {this.props.children}

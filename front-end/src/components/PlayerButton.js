@@ -5,6 +5,14 @@ export default class PlayerButton extends React.Component {
         super(props);
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        if(this.props.children.key == nextProps.children.key) {
+            return false;
+        }
+
+        return true;
+    }
+
     render() {
         return (
             <button className="player-buttons" id={this.props.buttonID}

@@ -14,29 +14,34 @@ export default class Player extends React.Component {
         this.state = {
             paused: true,
             duration: "0:00",
-            currentTime: "0:00"
+            currentTime: "0:00",
+            currentTimeInSec: 0
         }
 
         this.setPaused = this.setPaused.bind(this);
         this.setVolume = this.setVolume.bind(this);
         this.onLoadedMetadata = this.onLoadedMetadata.bind(this);
         this.onTimeUpdate = this.onTimeUpdate.bind(this);
+        this.setCurrentTime = this.setCurrentTime.bind(this);
+        this.onEnded = this.onEnded.bind(this);
     }
 
     setPaused() {
-        this.setState(preState => {
-            if(!preState.paused) {
-                this.audioInPlay.pause();
-            } else {
-                this.audioInPlay.play();
-            }
-
-            return (
-                {
-                    paused: !preState.paused
+        this.setState(
+            preState => {
+                if(!preState.paused) {
+                    this.audioInPlay.pause();
+                } else {
+                    this.audioInPlay.play();
                 }
-            );
-        });
+
+                return (
+                    {
+                        paused: !preState.paused
+                    }
+                );
+            }
+        );
     }
 
     setVolume(newVolume) {
@@ -49,6 +54,20 @@ export default class Player extends React.Component {
         }
 
         this.audioInPlay.volume = newVolume;
+    }
+
+    setCurrentTime(newCurrentTime) {
+        if(isFinite(newCurrentTime)) {
+            if(newCurrentTime < 0) {
+                this.audioInPlay.currentTime = 0;
+            }
+
+            if(newCurrentTime > this.state.duration) {
+                this.audioInPlay.currentTime = this.state.duration;
+            }
+
+            this.audioInPlay.currentTime = newCurrentTime;
+        }
     }
 
     componentDidMount() {
@@ -67,6 +86,8 @@ export default class Player extends React.Component {
     }
 
     onLoadedMetadata(event) {
+        this.durationInSec = event.target.duration;
+
         this.setState({
             duration: this.formatSeconds(event.target.duration)
         });
@@ -74,21 +95,31 @@ export default class Player extends React.Component {
 
     onTimeUpdate(event) {
         this.setState({
+            currentTimeInSec: event.target.currentTime,
             currentTime: this.formatSeconds(event.target.currentTime)
+        });
+    }
+
+    onEnded(event) {
+        this.setState({
+            paused: true,
+            currentTime: "0:00",
+            currentTimeInSec: 0
         });
     }
 
     render() {
         return (
             <div id={this.props.id}>
-                <audio id="audio-in-play" onTimeUpdate={this.onTimeUpdate} onLoadedMetadata={this.onLoadedMetadata}>
+                <audio id="audio-in-play" onTimeUpdate={this.onTimeUpdate} onLoadedMetadata={this.onLoadedMetadata}
+                onEnded={this.onEnded}>
                     <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" />
                 </audio>
 
                 <div id="buttons-container">
                     <div>
                         <PlayerButton buttonID="prev-button">
-                            <FontAwesomeIcon icon={faChevronLeft} />
+                            <FontAwesomeIcon key="prev-button" icon={faChevronLeft} />
                         </PlayerButton>
                     </div>
 
@@ -97,11 +128,11 @@ export default class Player extends React.Component {
                             {
                                 this.state.paused ? (
                                         <PlayerButton buttonID="play-button" setPaused={this.setPaused}>
-                                            <FontAwesomeIcon icon={faPlay} />
+                                            <FontAwesomeIcon key="play-button-play" icon={faPlay} />
                                         </PlayerButton>
                                     ) : (
                                         <PlayerButton buttonID="play-button" setPaused={this.setPaused}>
-                                            <FontAwesomeIcon icon={faPause} />
+                                            <FontAwesomeIcon key="play-button-pause" icon={faPause} />
                                         </PlayerButton>
                                     )
                             }
@@ -109,18 +140,18 @@ export default class Player extends React.Component {
 
                         <div>
                             <PlayerButton buttonID="shuffle-button">
-                                <FontAwesomeIcon icon={faRandom} />
+                                <FontAwesomeIcon key="shuffle-button" icon={faRandom} />
                             </PlayerButton>
 
                             <PlayerButton buttonID="loop-button">
-                                <FontAwesomeIcon icon={faSyncAlt} />
+                                <FontAwesomeIcon key="loop-button" icon={faSyncAlt} />
                             </PlayerButton>
                         </div>
                     </div>
 
                     <div>
                         <PlayerButton buttonID="next-button">
-                            <FontAwesomeIcon icon={faChevronRight} />
+                            <FontAwesomeIcon key="next-button" icon={faChevronRight} />
                         </PlayerButton>
                     </div>
                 </div>
@@ -128,7 +159,7 @@ export default class Player extends React.Component {
                 <div id="volume-container">
                     <RangeButton id="volume" playerID={this.props.id} orientation="vertical"
                     setVolume={this.setVolume}>
-                        <FontAwesomeIcon icon={faVolumeDown} />
+                        <FontAwesomeIcon key="volume" icon={faVolumeDown} />
                     </RangeButton>
                 </div>
 
@@ -140,7 +171,8 @@ export default class Player extends React.Component {
                         <span>{this.state.duration}</span>
                     </div>
                     
-                    <RangeButton id="seek" orientation="horizontal" />
+                    <RangeButton id="seek" orientation="horizontal" setCurrentTime={this.setCurrentTime} 
+                    durationInSec={this.durationInSec} currentTimeInSec={this.state.currentTimeInSec} />
                 </div>
             </div>
         );
