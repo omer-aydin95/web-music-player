@@ -72,6 +72,7 @@ export default class Player extends React.Component {
 
     componentDidMount() {
         this.audioInPlay = document.getElementById("audio-in-play");
+        this.audioInPlay.volume = 0.5;
     }
 
     formatSeconds(seconds) {
@@ -113,7 +114,7 @@ export default class Player extends React.Component {
             <div id={this.props.id}>
                 <audio id="audio-in-play" onTimeUpdate={this.onTimeUpdate} onLoadedMetadata={this.onLoadedMetadata}
                 onEnded={this.onEnded}>
-                    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" />
+                    <source src="https://www.dropbox.com/s/9fyfv58nvoce2ko/Link%20-%20Jim%20Yosef.mp3?dl=1" />
                 </audio>
 
                 <div id="buttons-container">
@@ -164,7 +165,7 @@ export default class Player extends React.Component {
                 </div>
 
                 <div id="seek-container">
-                    <div>SoundHelix Song 1</div>
+                    <div>Jim Yosef - Link [NCS Release]</div>
 
                     <div>
                         <span>{this.state.currentTime}</span>

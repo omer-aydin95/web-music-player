@@ -219,7 +219,7 @@ export default class RangeButton extends React.Component {
         return true;
     }
 
-    render() {console.log(this.props.id);
+    render() {
         if(this.props.orientation == "vertical") {
             return (
                 <div id={this.props.id} className="slider-container" onMouseDown={this.onMouseDownContainer} 
