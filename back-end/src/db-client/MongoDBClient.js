@@ -1,4 +1,4 @@
-const {MongoClient} = require("mongodb");
+const {MongoClient, ObjectId} = require("mongodb");
 const config = require("../../db-config");
 
 function getClient() {
@@ -11,5 +11,6 @@ function getClient() {
 
 module.exports = {
     getClient: getClient,
-    connectedDB: config.dbName
+    connectedDB: config.dbName,
+    ObjectId: ObjectId
 };

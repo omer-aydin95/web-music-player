@@ -3,26 +3,18 @@ const collectionConstants = require("../constant/CollectionConstants");
 
 const client = mongoDBClient.getClient();
 
-function getAudios(audioIDs, callback) {
+function getAllPlayLists(callback) {
     client.connect().then(
         (client) => {
-            const coll = client.db(mongoDBClient.connectedDB).collection(collectionConstants.COLL_AUDIOS);
+            const coll = client.db(mongoDBClient.connectedDB).collection(collectionConstants.COLL_PLAY_LISTS);
 
-            const query = audioIDs.reduce(
-                (prevObj, audioID) => {
-                    prevObj._id.$in.push(new mongoDBClient.ObjectId(audioID));
-
-                    return prevObj;
-                }, {_id: {$in: []}}
-            );
-
-            coll.find(query).toArray().then(
+            coll.find({}).toArray().then(
                 (docs) => {
                     callback(docs);
                 }
             ).catch(
                 (err) => {
-                    console.error(`Error while getting the audios: ${audioIDs} ${err}`);
+                    console.error(`Error while getting all play lists: ${playListID} ${err}`);
 
                     callback(null);
                 }
@@ -37,18 +29,18 @@ function getAudios(audioIDs, callback) {
     );
 }
 
-function getAllAudios(callback) {
+function getPlayList(playListID, callback) {
     client.connect().then(
         (client) => {
-            const coll = client.db(mongoDBClient.connectedDB).collection(collectionConstants.COLL_AUDIOS);
+            const coll = client.db(mongoDBClient.connectedDB).collection(collectionConstants.COLL_PLAY_LISTS);
 
-            coll.find({}).toArray().then(
-                (docs) => {
-                    callback(docs);
+            coll.findOne({_id: new mongoDBClient.ObjectId(playListID)}).then(
+                (doc) => {
+                    callback(doc);
                 }
             ).catch(
                 (err) => {
-                    console.error(`Error while getting all audios: ${err}`);
+                    console.error(`Error while getting the play list with ID: ${playListID} ${err}`);
 
                     callback(null);
                 }
@@ -64,6 +56,6 @@ function getAllAudios(callback) {
 }
 
 module.exports = {
-    getAllAudios: getAllAudios,
-    getAudios: getAudios
+    getPlayList: getPlayList,
+    getAllPlayLists: getAllPlayLists
 };

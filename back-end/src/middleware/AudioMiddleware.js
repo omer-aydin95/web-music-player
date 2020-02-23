@@ -7,7 +7,7 @@ audioMiddleware.use(
     (req, res, next) => {
         console.info(`Accessing all audio from host ${req.headers["host"]}`);
 
-        res.setHeader("Access-Control-Allow-Origin", "http://localhost:1995");
+        res.setHeader("Access-Control-Allow-Origin", req.headers["host"]);
 
         next();
     }
