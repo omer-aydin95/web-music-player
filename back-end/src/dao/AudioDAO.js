@@ -2,38 +2,32 @@ const mongoDBClient = require("../db-client/MongoDBClient");
 
 const client = mongoDBClient.getClient();
 
-function getAudio(audioID, callback) {
+function getAllAudios(callback) {
     client.connect().then(
         (client) => {
-            const coll = client.db(mongoDBClient.connectedDB).collection("users");
+            const coll = client.db(mongoDBClient.connectedDB).collection("audios");
 
-            coll.findOne({_id: audioID}).then(
-                (doc) => {
-                    callback(doc);
+            coll.find({}).toArray().then(
+                (docs) => {
+                    callback(docs);
                 }
             ).catch(
                 (err) => {
-                    console.log(`Error on find: ${err}`);
+                    console.error(`Error while getting all audios: ${err}`);
 
                     callback(null);
-                }
-            ).finally(
-                () => {
-                    client.close();
                 }
             );
         }
     ).catch(
         (err) => {
-            console.log(`Error on connect: ${err}`);
-
-            client.close();
+            console.error(`Error while connecting to server: ${err}`);
 
             callback(null);
         }
-    )
+    );
 }
 
 module.exports = {
-    getAudio: getAudio
+    getAllAudios: getAllAudios
 };

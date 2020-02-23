@@ -1,14 +1,16 @@
-const express = require("express");
+const {Router} = require("express");
 const audioDAO = require("../dao/AudioDAO");
 
-const audioController = express.Router();
+const audioController = Router();
 
 audioController.get(
-    "/getAudio", 
+    "/getAll",
     (req, res) => {
-        audioDAO.getAudio(parseInt(req.query.audioID), (doc) => {
-            res.send(doc);
-        });
+        audioDAO.getAllAudios(
+            (docs) => {
+                res.send(docs);
+            }
+        );
     }
 );
 
