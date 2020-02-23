@@ -7,8 +7,7 @@ export default class UserLists extends React.Component {
             <div>
                 <div>User Lists</div>
 
-                <List listName="Default List" />
-                <List listName="My Fav Mix" />
+                <List listName="All" listID="all" />
             </div>
         );
     }

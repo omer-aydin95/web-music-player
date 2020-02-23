@@ -12,7 +12,11 @@ export default class PlayList extends React.Component {
                     <span>Duration</span>
                 </div>
                 
-                <AudioDetails />
+                {
+                    this.props.audios.map(
+                        audio => <AudioDetails key={audio._id} audio={audio} changeAudio={this.props.changeAudio} />
+                    )
+                }
             </div>
         );
     }

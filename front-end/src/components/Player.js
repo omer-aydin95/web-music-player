@@ -89,9 +89,18 @@ export default class Player extends React.Component {
     onLoadedMetadata(event) {
         this.durationInSec = event.target.duration;
 
-        this.setState({
-            duration: this.formatSeconds(event.target.duration)
-        });
+        if(this.props.playNow) {
+            this.setState({
+                duration: this.formatSeconds(event.target.duration),
+                paused: false
+            });
+    
+            this.audioInPlay.play();
+        } else {
+            this.setState({
+                duration: this.formatSeconds(event.target.duration)
+            });
+        }
     }
 
     onTimeUpdate(event) {
@@ -109,12 +118,24 @@ export default class Player extends React.Component {
         });
     }
 
+    componentDidUpdate(prevProps) {
+        if(this.props.audio != null) {
+            if(prevProps.audio == null) {
+                this.audioInPlay.load();
+            } else {
+                if(prevProps.audio.trackURL != this.props.audio.trackURL) {
+                    this.audioInPlay.load();
+                }
+            }
+        }
+    }
+
     render() {
         return (
             <div id={this.props.id}>
                 <audio id="audio-in-play" onTimeUpdate={this.onTimeUpdate} onLoadedMetadata={this.onLoadedMetadata}
                 onEnded={this.onEnded}>
-                    <source src="https://www.dropbox.com/s/9fyfv58nvoce2ko/Link%20-%20Jim%20Yosef.mp3?dl=1" />
+                    <source src={this.props.audio && this.props.audio.trackURL} />
                 </audio>
 
                 <div id="buttons-container">
@@ -165,7 +186,7 @@ export default class Player extends React.Component {
                 </div>
 
                 <div id="seek-container">
-                    <div>Jim Yosef - Link [NCS Release]</div>
+                    <div>{this.props.audio && (this.props.audio.title + " - " + this.props.audio.album + " - " + this.props.audio.artist)}</div>
 
                     <div>
                         <span>{this.state.currentTime}</span>

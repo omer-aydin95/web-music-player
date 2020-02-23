@@ -160,7 +160,7 @@ html, body {
     position: fixed;
     bottom: 120px;
     right: 5%;
-    background-color: aqua;
+    background-color: black;
     width: 175px;
     height: 175px;
     z-index: 10;
@@ -200,9 +200,8 @@ html, body {
 #main-grid > div:last-child > div:first-child {
     font-weight: 700;
     margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr 0.5fr;
     padding-left: 10px;
     padding-right: 10px;
 }
@@ -216,16 +215,23 @@ html, body {
     cursor: pointer;
 }
 
+.list:active {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
 .audio-details {
     padding: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr 0.5fr;
 }
 
 .audio-details:hover {
     background-color: rgba(0, 0, 0, 0.1);
     cursor: pointer;
+}
+
+.audio-details:active {
+    background-color: rgba(0, 0, 0, 0.3);
 }
 
 * {
