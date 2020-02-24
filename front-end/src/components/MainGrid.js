@@ -30,7 +30,7 @@ export default class MainGrid extends React.Component {
                     currentAudios: playList.audios
                 });
 
-                this.props.changeAudio(playList.audios[0], false);
+                this.props.changeCurrentPlayList(playList);
             }
         ).catch(
             (err) => {
@@ -54,6 +54,7 @@ export default class MainGrid extends React.Component {
                             currentAudios: playList.audios
                         });
 
+                        this.props.changeCurrentPlayList(playList);
                         this.props.changeAudio(playList.audios[0], false);
                     }
                 ).catch(

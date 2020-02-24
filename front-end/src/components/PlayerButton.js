@@ -14,11 +14,20 @@ export default class PlayerButton extends React.Component {
     }
 
     render() {
-        return (
-            <button className="player-buttons" id={this.props.buttonID}
-            onClick={() => this.props.setPaused()}>
-                {this.props.children}
-            </button>
-        );
+        if(this.props.buttonID == "play-button") {
+            return (
+                <button className="player-buttons" id={this.props.buttonID}
+                onClick={() => this.props.setPaused()}>
+                    {this.props.children}
+                </button>
+            );
+        } else {
+            return (
+                <button className="player-buttons" id={this.props.buttonID}
+                onClick={() => this.props.nextOrPrevAudio(this.props.buttonID == "next-button")}>
+                    {this.props.children}
+                </button>
+            );
+        }
     }
 }

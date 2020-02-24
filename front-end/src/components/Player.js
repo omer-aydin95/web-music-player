@@ -111,6 +111,8 @@ export default class Player extends React.Component {
     }
 
     onEnded(event) {
+        this.props.nextOrPrevAudio();
+        
         this.setState({
             paused: true,
             currentTime: "0:00",
@@ -140,7 +142,7 @@ export default class Player extends React.Component {
 
                 <div id="buttons-container">
                     <div>
-                        <PlayerButton buttonID="prev-button">
+                        <PlayerButton buttonID="prev-button" nextOrPrevAudio={this.props.nextOrPrevAudio}>
                             <FontAwesomeIcon key="prev-button" icon={faChevronLeft} />
                         </PlayerButton>
                     </div>
@@ -172,7 +174,7 @@ export default class Player extends React.Component {
                     </div>
 
                     <div>
-                        <PlayerButton buttonID="next-button">
+                        <PlayerButton buttonID="next-button" nextOrPrevAudio={this.props.nextOrPrevAudio}>
                             <FontAwesomeIcon key="next-button" icon={faChevronRight} />
                         </PlayerButton>
                     </div>
