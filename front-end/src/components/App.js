@@ -27,7 +27,8 @@ export default class App extends React.Component {
     render() {
         return (
             <>
-                <MainGrid id="main-grid" changeAudio={this.changeAudio} />
+                <MainGrid id="main-grid" changeAudio={this.changeAudio} 
+                currentAudioID={this.state.currentAudio && this.state.currentAudio._id} />
 
                 <AlbumCover id="album-cover" coverURL={this.state.currentCoverURL} />
 

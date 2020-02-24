@@ -12,8 +12,14 @@ export default class AudioDetails extends React.Component {
     }
 
     render() {
+        let cssClasses = "audio-details";
+
+        if(this.props.currentAudioID == this.props.audio._id) {
+            cssClasses += " active";
+        }
+
         return (
-            <div className="audio-details" onClick={this.onClick}>
+            <div className={cssClasses} onClick={this.onClick}>
                 <span>{this.props.audio.title}</span>
                 <span>{this.props.audio.artist}</span>
                 <span>{this.props.audio.album}</span>

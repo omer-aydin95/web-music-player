@@ -7,7 +7,13 @@ export default class UserLists extends React.Component {
             <div>
                 <div>User Lists</div>
 
-                <List listName="All" listID="all" />
+                {
+                    this.props.playLists.map(
+                        (playList) => <List key={playList._id} playList={playList} 
+                        changePlayList={this.props.changePlayList} 
+                        currentPlayListID={this.props.currentPlayListID} />
+                    )
+                }
             </div>
         );
     }
