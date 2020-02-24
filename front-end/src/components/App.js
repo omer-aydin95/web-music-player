@@ -48,6 +48,10 @@ export default class App extends React.Component {
             this.currentAudioIndex++;
         } else {
             this.currentAudioIndex--;
+
+            if(this.currentAudioIndex < 0) {
+                this.currentAudioIndex = this.currentPlayList.audios.length - 1;
+            }
         }
 
         const nextAudioIndex = (this.currentAudioIndex % this.currentPlayList.audios.length);
