@@ -10,7 +10,9 @@ export default class App extends React.Component {
         this.state = {
             currentAudio: null,
             currentCoverURL: null,
-            playNow: false
+            playNow: false,
+            shuffleOn: false,
+            loopOn: false
         };
 
         this.myObj = {name: "xlr"};
@@ -18,6 +20,8 @@ export default class App extends React.Component {
         this.changeAudio = this.changeAudio.bind(this);
         this.changeCurrentPlayList = this.changeCurrentPlayList.bind(this);
         this.nextOrPrevAudio = this.nextOrPrevAudio.bind(this);
+        this.onOffShuffle = this.onOffShuffle.bind(this);
+        this.onOffLoop = this.onOffLoop.bind(this);
     }
 
     changeAudio(audio, playNow) {
@@ -27,23 +31,32 @@ export default class App extends React.Component {
             playNow: playNow
         });
 
-        this.currentPlayList.audios.forEach(
-            (item, index) => {
-                if(item._id == audio._id) {
-                    this.currentAudioIndex = index;
-
-                    return;
-                }            
-            }
-        );
+        if(!this.state.shuffleOn) {
+            this.currentPlayList.audios.forEach(
+                (item, index) => {
+                    if(item._id == audio._id) {
+                        this.currentAudioIndex = index;
+    
+                        return;
+                    }            
+                }
+            );
+        }
     }
 
     changeCurrentPlayList(playList) {
         this.currentPlayList = playList;
         this.currentAudioIndex = -1;
+
+        this.shuffledAudios = this.currentPlayList.audios.slice(0);
+        this.shuffledAudios.sort(
+            (a, b) => {
+                return Math.floor(Math.random() * 100) % 3 == 0 ? 1 : -1;
+            }
+        );
     }
 
-    nextOrPrevAudio(playNext = true) {
+    nextOrPrevAudio(playNext = true, userPassesAudio = false) {
         if(playNext) {
             this.currentAudioIndex++;
         } else {
@@ -54,8 +67,16 @@ export default class App extends React.Component {
             }
         }
 
+        if(!this.state.loopOn && !userPassesAudio && this.currentAudioIndex >= this.currentPlayList.audios.length) {
+            this.currentAudioIndex = -1;
+
+            return;
+        }
+
         const nextAudioIndex = (this.currentAudioIndex % this.currentPlayList.audios.length);
-        const nextAudio = this.currentPlayList.audios[nextAudioIndex];
+        const nextAudio = this.state.shuffleOn ? 
+            this.shuffledAudios[nextAudioIndex] : 
+            this.currentPlayList.audios[nextAudioIndex];
 
         this.setState({
             currentAudio: nextAudio,
@@ -64,6 +85,44 @@ export default class App extends React.Component {
         });
 
         this.currentAudioIndex = nextAudioIndex;
+    }
+
+    onOffShuffle() {
+        this.setState(
+            (prevState) => {
+                if(!prevState.shuffleOn) {
+                    this.currentAudioIndex = -1;
+                } else {
+                    this.currentPlayList.audios.forEach(
+                        (item, index) => {
+                            if(item._id == this.state.currentAudio._id) {
+                                this.currentAudioIndex = index;
+            
+                                return;
+                            }            
+                        }
+                    );
+                }
+
+                return (
+                    {
+                        shuffleOn: !prevState.shuffleOn
+                    }
+                );
+            }
+        );
+    }
+
+    onOffLoop() {
+        this.setState(
+            (prevState) => {
+                return (
+                    {
+                        loopOn: !prevState.loopOn
+                    }
+                );
+            }
+        );
     }
 
     render() {
@@ -76,7 +135,8 @@ export default class App extends React.Component {
                 <AlbumCover id="album-cover" coverURL={this.state.currentCoverURL} />
 
                 <Player id="player" audio={this.state.currentAudio} playNow={this.state.playNow}
-                nextOrPrevAudio={this.nextOrPrevAudio} />
+                nextOrPrevAudio={this.nextOrPrevAudio} shuffleOn={this.state.shuffleOn}
+                loopOn={this.state.loopOn} onOffShuffle={this.onOffShuffle} onOffLoop={this.onOffLoop} />
             </>
         );
     }

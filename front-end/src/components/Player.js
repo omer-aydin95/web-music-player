@@ -163,11 +163,13 @@ export default class Player extends React.Component {
                         </div>
 
                         <div>
-                            <PlayerButton buttonID="shuffle-button">
+                            <PlayerButton buttonID="shuffle-button" shuffleOn={this.props.shuffleOn}
+                            onOffShuffle={this.props.onOffShuffle}>
                                 <FontAwesomeIcon key="shuffle-button" icon={faRandom} />
                             </PlayerButton>
 
-                            <PlayerButton buttonID="loop-button">
+                            <PlayerButton buttonID="loop-button" loopOn={this.props.loopOn}
+                            onOffLoop={this.props.onOffLoop}>
                                 <FontAwesomeIcon key="loop-button" icon={faSyncAlt} />
                             </PlayerButton>
                         </div>
