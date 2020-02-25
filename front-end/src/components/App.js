@@ -2,6 +2,7 @@ import React from "react";
 import Player from "./Player";
 import AlbumCover from "./AlbumCover";
 import MainGrid from "./MainGrid";
+import CreatePlayDialog from "./CreatePlayListDialog";
 
 export default class App extends React.Component {
     constructor(props) {
@@ -12,16 +13,17 @@ export default class App extends React.Component {
             currentCoverURL: null,
             playNow: false,
             shuffleOn: false,
-            loopOn: false
+            loopOn: false,
+            dialogDisplay: "none"
         };
-
-        this.myObj = {name: "xlr"};
 
         this.changeAudio = this.changeAudio.bind(this);
         this.changeCurrentPlayList = this.changeCurrentPlayList.bind(this);
         this.nextOrPrevAudio = this.nextOrPrevAudio.bind(this);
         this.onOffShuffle = this.onOffShuffle.bind(this);
         this.onOffLoop = this.onOffLoop.bind(this);
+        this.showDialog = this.showDialog.bind(this);
+        this.closeDialog = this.closeDialog.bind(this);
     }
 
     changeAudio(audio, playNow) {
@@ -125,12 +127,28 @@ export default class App extends React.Component {
         );
     }
 
+    showDialog() {
+        this.setState({
+            dialogDisplay: "flex"
+        });
+    }
+
+    closeDialog() {
+        this.setState({
+            dialogDisplay: "none"
+        });
+    }
+
     render() {
         return (
             <>
+                <CreatePlayDialog id="create-play-list-dialog" display={this.state.dialogDisplay}
+                closeDialog={this.closeDialog} />
+
                 <MainGrid id="main-grid" changeAudio={this.changeAudio} 
                 currentAudioID={this.state.currentAudio && this.state.currentAudio._id}
-                changeCurrentPlayList={this.changeCurrentPlayList} />
+                changeCurrentPlayList={this.changeCurrentPlayList}
+                showDialog={this.showDialog} />
 
                 <AlbumCover id="album-cover" coverURL={this.state.currentCoverURL} />
 

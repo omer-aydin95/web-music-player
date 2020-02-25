@@ -1,11 +1,19 @@
 import React from "react";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import List from "./List";
 
 export default class UserLists extends React.Component {
     render() {
         return (
             <div>
-                <div>User Lists</div>
+                <div>
+                    User Lists
+
+                    <button onClick={() => {this.props.showDialog()}}>
+                        <FontAwesomeIcon icon={faPlus} />
+                    </button>
+                </div>
 
                 {
                     this.props.playLists.map(

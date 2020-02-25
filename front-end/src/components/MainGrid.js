@@ -74,7 +74,8 @@ export default class MainGrid extends React.Component {
         return (
             <div id={this.props.id}>
                 <UserLists playLists={this.state.playLists} changePlayList={this.changePlayList}
-                currentPlayListID={this.state.currentPlayList && this.state.currentPlayList._id} />
+                currentPlayListID={this.state.currentPlayList && this.state.currentPlayList._id}
+                showDialog={this.props.showDialog} />
 
                 <PlayList audios={this.state.currentAudios} changeAudio={this.props.changeAudio}
                 currentAudioID={this.props.currentAudioID} />
