@@ -2,6 +2,7 @@ import React from "react";
 import UserLists from "./UserLists";
 import PlayList from "./PlayList";
 import * as playListAPI from "../api-endpoints/PlayListAPI";
+import responseConstants from "../constants/ResponseConstants";
 
 export default class MainGrid extends React.Component {
     constructor(props) {
@@ -21,51 +22,47 @@ export default class MainGrid extends React.Component {
             return;
         }
 
-        fetch(playListAPI.GET_LIST + "?listID=" + newPlayList._id).then(
-            (res) => res.json()
-        ).then(
-            (playList) => {
-                this.setState({
-                    currentPlayList: playList,
-                    currentAudios: playList.audios
-                });
+        playListAPI.getPlayList(
+            newPlayList._id,
+            (playListResponse) => {
+                if(playListResponse == null || playListResponse.status == responseConstants.FAIL) {
+                    return;
+                }
 
-                this.props.changeCurrentPlayList(playList);
-            }
-        ).catch(
-            (err) => {
-                console.error(`Error while fetching the list: ${err}`);
+                this.setState({
+                    currentPlayList: playListResponse.playList,
+                    currentAudios: playListResponse.playList.audios
+                });
+        
+                this.props.changeCurrentPlayList(playListResponse.playList);
             }
         );
     }
 
     componentDidMount() {
-        fetch(playListAPI.GET_ALL_LISTS).then(
-            (res) => res.json()
-        ).then(
-            (allPlayLists) => {
-                fetch(playListAPI.GET_LIST + "?listID=" + allPlayLists[0]._id).then(
-                    (res) => res.json()
-                ).then(
-                    (playList) => {
-                        this.setState({
-                            playLists: allPlayLists,
-                            currentPlayList: playList,
-                            currentAudios: playList.audios
-                        });
+        playListAPI.getAllPlayLists(
+            (allPlayListsResponse) => {
+                if(allPlayListsResponse == null || allPlayListsResponse.status == responseConstants.FAIL) {
+                    return;
+                }
 
-                        this.props.changeCurrentPlayList(playList);
-                        this.props.changeAudio(playList.audios[0], false);
-                    }
-                ).catch(
-                    (err) => {
-                        console.error(`Error while fetching the list: ${err}`);
+                playListAPI.getPlayList(
+                    allPlayListsResponse.playLists[0]._id,
+                    (playListResponse) => {
+                        if(playListResponse == null || playListResponse.status == responseConstants.FAIL) {
+                            return;
+                        }
+
+                        this.setState({
+                            playLists: allPlayListsResponse.playLists,
+                            currentPlayList: playListResponse.playList,
+                            currentAudios: playListResponse.playList.audios
+                        });
+                
+                        this.props.changeCurrentPlayList(playListResponse.playList);
+                        this.props.changeAudio(playListResponse.playList.audios[0], false);
                     }
                 );
-            }
-        ).catch(
-            (err) => {
-                console.error(`Error while fetching all lists: ${err}`);
             }
         );
     }

@@ -9,7 +9,7 @@ playListMiddleware.use(
     (req, res, next) => {
         res.setHeader("Access-Control-Allow-Origin", "*");
 
-        if(req.method.toLocaleUpperCase() == httpMethodConstants.METHOD_GET) {console.log(req.query);
+        if(req.method.toLocaleUpperCase() == httpMethodConstants.METHOD_GET) {
             if(!req.query.listID || req.query.listID == "") {
                 console.info(`Accessing all lists from origin ${req.headers["origin"]}`);
             } else {
