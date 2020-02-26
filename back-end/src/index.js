@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const playListController = require("./controller/PlayListController");
 const playListMiddleware = require("./middleware/PlayListMiddleware");
+const playListController = require("./controller/PlayListController");
 
 const APP = express();
 const PORT = 5991;

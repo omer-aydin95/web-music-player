@@ -122,9 +122,40 @@ function updatePlayList(playList, callback) {
     );
 }
 
+function deletePlayList(playListID, callback) {
+    client.connect().then(
+        (client) => {
+            const coll = client.db(mongoDBClient.connectedDB).collection(collectionConstants.COLL_PLAY_LISTS);
+
+            coll.deleteOne({_id: new mongoDBClient.ObjectId(playListID)}).then(
+                (res) => {
+                    if(res.deletedCount == 0) {
+                        callback(dbOperationConstants.NO_ROWS_MODIFIED);
+                    } else {
+                        callback(dbOperationConstants.EXECUTION_SUCCESS);
+                    }
+                }
+            ).catch(
+                (err) => {
+                    console.error(`Error while deleting the play list ${playList._id}: ${err}`);
+
+                    callback(dbOperationConstants.EXECUTION_FAIL);
+                }
+            );
+        }
+    ).catch(
+        (err) => {
+            console.error(`Error while connecting to server: ${err}`);
+
+            callback(dbOperationConstants.EXECUTION_FAIL);
+        }
+    );
+}
+
 module.exports = {
     getPlayList: getPlayList,
     getAllPlayLists: getAllPlayLists,
     savePlayList: savePlayList,
-    updatePlayList: updatePlayList
+    updatePlayList: updatePlayList,
+    deletePlayList: deletePlayList
 };
