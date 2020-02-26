@@ -100,6 +100,7 @@ playListController.post(
                 }
 
                 let playList = new PlayList(insertedId, req.body.listName);
+                delete playList.audios;
 
                 res.send({
                     msg: "Play list have been saved.", status: responseConstants.SUCCESS, playList: playList
