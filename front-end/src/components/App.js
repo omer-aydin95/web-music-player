@@ -139,11 +139,15 @@ export default class App extends React.Component {
         });
     }
 
+    createPlayList(playListName) {
+        console.log(playListName);
+    }
+
     render() {
         return (
             <>
                 <CreatePlayDialog id="create-play-list-dialog" display={this.state.dialogDisplay}
-                closeDialog={this.closeDialog} />
+                closeDialog={this.closeDialog} createPlayList={this.createPlayList} />
 
                 <MainGrid id="main-grid" changeAudio={this.changeAudio} 
                 currentAudioID={this.state.currentAudio && this.state.currentAudio._id}
