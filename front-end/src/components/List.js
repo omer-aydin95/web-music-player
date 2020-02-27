@@ -5,10 +5,17 @@ export default class List extends React.Component {
         super(props);
 
         this.onClick = this.onClick.bind(this);
+        this.onContextMenu = this.onContextMenu.bind(this);
     }
 
     onClick(event) {
         this.props.changePlayList(this.props.playList);
+    }
+
+    onContextMenu(event) {
+        event.preventDefault();
+
+        this.props.onOffContextMenuForPlayList(true, event.clientX, event.clientY, this.props.playList._id);
     }
 
     render() {
@@ -19,7 +26,10 @@ export default class List extends React.Component {
         }
 
         return (
-            <div className={cssClasses} onClick={this.onClick}>{this.props.playList.listName}</div>
+            <div onContextMenu={this.onContextMenu} 
+            className={cssClasses} onClick={this.onClick}>
+                {this.props.playList.listName}
+            </div>
         );
     }
 }

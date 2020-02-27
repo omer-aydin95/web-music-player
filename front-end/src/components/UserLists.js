@@ -19,7 +19,8 @@ export default class UserLists extends React.Component {
                     this.props.playLists.map(
                         (playList) => <List key={playList._id} playList={playList} 
                         changePlayList={this.props.changePlayList} 
-                        currentPlayListID={this.props.currentPlayListID} />
+                        currentPlayListID={this.props.currentPlayListID}
+                        onOffContextMenuForPlayList={this.props.onOffContextMenuForPlayList} />
                     )
                 }
             </div>

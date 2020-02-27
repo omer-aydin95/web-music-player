@@ -106,7 +106,7 @@ export const deleteAudioFromPlayList = (playListID, audioID, callback) => {
     );
 }
 
-export const deletePlayList = (playListID) => {
+export const deletePlayList = (playListID, callback) => {
     fetch(API_ENDPOINT, {
         method: httpMethodConstants.METHOD_DELETE,
         mode: "cors",

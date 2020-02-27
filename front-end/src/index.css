@@ -341,6 +341,35 @@ h1 {
     background-color: rgba(0, 0, 0, 0.2);
 }
 
+#context-menu {
+    position: fixed;
+    background-color: white;
+    box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.4);
+}
+
+.menu-item {
+    padding: 5px 10px 5px 10px;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.menu-item:not(.disabled):hover {
+    cursor: pointer;
+    color: rgba(0, 0, 0, 1);
+}
+
+.menu-item:not(.disabled):active {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.disabled {
+    cursor: default !important;
+}
+
+hr {
+    margin: 0;
+    border: 0.5px solid rgba(0, 0, 0, 0.1);
+}
+
 .active {
     background-color: #30475e;
     color: white;
