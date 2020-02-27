@@ -21,6 +21,8 @@ export default class CreatePlayDialog extends React.Component {
     onClickCreate() {
         const playListName = this.state.inputValue;
 
+        this.props.closeDialog();
+
         this.setState({
             inputValue: ""
         });

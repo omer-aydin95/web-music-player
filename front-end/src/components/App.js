@@ -14,7 +14,8 @@ export default class App extends React.Component {
             playNow: false,
             shuffleOn: false,
             loopOn: false,
-            dialogDisplay: "none"
+            dialogDisplay: "none",
+            createListName: null
         };
 
         this.changeAudio = this.changeAudio.bind(this);
@@ -24,6 +25,7 @@ export default class App extends React.Component {
         this.onOffLoop = this.onOffLoop.bind(this);
         this.showDialog = this.showDialog.bind(this);
         this.closeDialog = this.closeDialog.bind(this);
+        this.createPlayList = this.createPlayList.bind(this);
     }
 
     changeAudio(audio, playNow) {
@@ -140,7 +142,11 @@ export default class App extends React.Component {
     }
 
     createPlayList(playListName) {
-        console.log(playListName);
+        if(playListName != null && playListName != "") {
+            this.setState({
+                createListName: playListName
+            });
+        }
     }
 
     render() {
@@ -152,7 +158,7 @@ export default class App extends React.Component {
                 <MainGrid id="main-grid" changeAudio={this.changeAudio} 
                 currentAudioID={this.state.currentAudio && this.state.currentAudio._id}
                 changeCurrentPlayList={this.changeCurrentPlayList}
-                showDialog={this.showDialog} />
+                showDialog={this.showDialog} createListName={this.state.createListName} />
 
                 <AlbumCover id="album-cover" coverURL={this.state.currentCoverURL} />
 

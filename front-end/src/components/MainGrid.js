@@ -67,6 +67,29 @@ export default class MainGrid extends React.Component {
         );
     }
 
+    componentDidUpdate(prevProps) {
+        if(prevProps.createListName != this.props.createListName) {
+            playListAPI.createPlayList(
+                this.props.createListName,
+                (playListResponse) => {
+                    if(playListResponse == null || playListResponse.status == responseConstants.FAIL) {
+                        return;
+                    }
+
+                    this.setState(
+                        (prevState) => {
+                            prevState.playLists.push(playListResponse.playList);
+
+                            return ({
+                                playLists: prevState.playLists
+                            });
+                        }
+                    );
+                }
+            );
+        }
+    }
+
     render() {
         return (
             <div id={this.props.id}>

@@ -8,6 +8,7 @@ playListMiddleware.use(
     "/",
     (req, res, next) => {
         res.setHeader("Access-Control-Allow-Origin", "*");
+        res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
         if(req.method.toLocaleUpperCase() == httpMethodConstants.METHOD_GET) {
             if(!req.query.listID || req.query.listID == "") {
@@ -44,6 +45,9 @@ playListMiddleware.use(
             } else {
                 next();
             }
+        } else if(req.method.toLocaleUpperCase() == httpMethodConstants.METHOD_OPTIONS) {
+            res.status(200);
+            res.send();
         } else {
             console.info(`Unsupported http request method! origin: ${req.headers["origin"]}`);
             

@@ -2,7 +2,7 @@
 
 ### (UNDER CONSTRUCTION)
 
-A web music player that have built with [ReactJS](http://reactjs.org/) and [ExpressJS](https://expressjs.com/). The project uses [MongoDB](https://www.mongodb.com/) for data storage. You need to import the data from *back-end/data/* to their corresponding collections.
+A web music player that have built with [ReactJS](http://reactjs.org/) and [ExpressJS](https://expressjs.com/). The project uses [MongoDB](https://www.mongodb.com/) for data storage. You need to import the data from *back-end/data/* to their corresponding collections. Also you need to create *play_lists* collection.
 
 ---
 To run the back-end project:
