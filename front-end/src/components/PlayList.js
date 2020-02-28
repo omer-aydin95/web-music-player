@@ -15,7 +15,7 @@ export default class PlayList extends React.Component {
                 {
                     this.props.audios.map(
                         audio => <AudioDetails key={audio._id} audio={audio} changeAudio={this.props.changeAudio}
-                        currentAudioID={this.props.currentAudioID} />
+                        currentAudioID={this.props.currentAudioID} onOffContextMenuForAudio={this.props.onOffContextMenuForAudio} />
                     )
                 }
             </div>

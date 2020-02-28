@@ -5,10 +5,17 @@ export default class AudioDetails extends React.Component {
         super(props);
 
         this.onClick = this.onClick.bind(this);
+        this.onContextMenu = this.onContextMenu.bind(this);
     }
 
     onClick(event) {
         this.props.changeAudio(this.props.audio, true);
+    }
+
+    onContextMenu(event) {
+        event.preventDefault(); 
+
+        this.props.onOffContextMenuForAudio(true, event.clientX, event.clientY, this.props.audio._id);
     }
 
     render() {
@@ -19,7 +26,7 @@ export default class AudioDetails extends React.Component {
         }
 
         return (
-            <div className={cssClasses} onClick={this.onClick}>
+            <div className={cssClasses} onClick={this.onClick} onContextMenu={this.onContextMenu}>
                 <span>{this.props.audio.title}</span>
                 <span>{this.props.audio.artist}</span>
                 <span>{this.props.audio.album}</span>

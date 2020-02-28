@@ -1,4 +1,5 @@
 import React from "react";
+import * as audioContextMenuConstants from "../constants/AudioContextMenuConstants";
 
 export default class MenuItem extends React.Component {
     constructor(props) {
@@ -6,9 +7,17 @@ export default class MenuItem extends React.Component {
 
         this.onClick = this.onClick.bind(this);
     }
-
+    
     onClick(event) {
-        this.props.deletePlayList(this.props.playListID);
+        if(this.props.audioID) {
+            if(this.props.menuAction == audioContextMenuConstants.DELETE_AUDIO_FROM_LIST) {
+                this.props.deleteAudioFromPlayList(this.props.playListID, this.props.audioID);
+            } else {
+                this.props.addAudioToPlayList(this.props.playListID, this.props.audioID);
+            }
+        } else {
+            this.props.deletePlayList(this.props.playListID);
+        }
     }
 
     render() {

@@ -15,7 +15,11 @@ export default class List extends React.Component {
     onContextMenu(event) {
         event.preventDefault();
 
-        this.props.onOffContextMenuForPlayList(true, event.clientX, event.clientY, this.props.playList._id);
+        if(this.props.playList._id != "all") {
+            this.props.onOffContextMenuForPlayList(true, event.clientX, event.clientY, this.props.playList._id);
+        } else {
+            this.props.onOffContextMenuForPlayList(false);
+        }
     }
 
     render() {

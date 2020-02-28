@@ -1,4 +1,2 @@
-module.exports = {
-    SUCCESS: "Success",
-    FAIL: "Fail"
-};
+export const SUCCESS = "Success"
+export const FAIL = "Fail";
