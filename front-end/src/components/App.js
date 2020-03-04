@@ -3,6 +3,8 @@ import Player from "./Player";
 import AlbumCover from "./AlbumCover";
 import MainGrid from "./MainGrid";
 import CreatePlayDialog from "./CreatePlayListDialog";
+import InfoDialog from "./InfoDialog";
+import * as infoStates from "../constants/InfoDialogState";
 
 export default class App extends React.Component {
     constructor(props) {
@@ -15,7 +17,10 @@ export default class App extends React.Component {
             shuffleOn: false,
             loopOn: false,
             dialogDisplay: "none",
-            createListName: null
+            createListName: null,
+            displayInfoDialog: false,
+            infoState: infoStates.STATE_INFO,
+            infoDialogMsg: "Error message."
         };
 
         this.changeAudio = this.changeAudio.bind(this);
@@ -26,6 +31,8 @@ export default class App extends React.Component {
         this.showDialog = this.showDialog.bind(this);
         this.closeDialog = this.closeDialog.bind(this);
         this.createPlayList = this.createPlayList.bind(this);
+        this.closeInfoDialog = this.closeInfoDialog.bind(this);
+        this.showInfoDialog = this.showInfoDialog.bind(this);
     }
 
     changeAudio(audio, playNow) {
@@ -149,16 +156,37 @@ export default class App extends React.Component {
         }
     }
 
+    closeInfoDialog() {
+        this.setState({
+            displayInfoDialog: false
+        });
+    }
+
+    showInfoDialog(msg = "", state = infoStates.STATE_INFO) {
+        this.setState({
+            displayInfoDialog: true,
+            infoState: state,
+            infoDialogMsg: msg
+        });
+    }
+
     render() {
         return (
             <>
                 <CreatePlayDialog id="create-play-list-dialog" display={this.state.dialogDisplay}
                 closeDialog={this.closeDialog} createPlayList={this.createPlayList} />
 
+                {
+                    this.state.displayInfoDialog == true && 
+                    <InfoDialog id="info-dialog" infoState={this.state.infoState} 
+                    infoDialogMsg={this.state.infoDialogMsg} closeInfoDialog={this.closeInfoDialog} />
+                }
+
                 <MainGrid id="main-grid" changeAudio={this.changeAudio} 
                 currentAudioID={this.state.currentAudio && this.state.currentAudio._id}
                 changeCurrentPlayList={this.changeCurrentPlayList}
-                showDialog={this.showDialog} createListName={this.state.createListName} />
+                showDialog={this.showDialog} createListName={this.state.createListName}
+                showInfoDialog={this.showInfoDialog} />
 
                 <AlbumCover id="album-cover" coverURL={this.state.currentCoverURL} />
 

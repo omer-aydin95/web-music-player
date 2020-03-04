@@ -6,6 +6,7 @@ import * as responseConstants from "../constants/ResponseConstants";
 import * as audioContextMenuConstants from "../constants/AudioContextMenuConstants";
 import ContextMenu from "./ContextMenu";
 import MenuItem from "./MenuItem";
+import * as infoStates from "../constants/InfoDialogState";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTimes, faPlus, faCheck} from "@fortawesome/free-solid-svg-icons";
 
@@ -46,7 +47,15 @@ export default class MainGrid extends React.Component {
         playListAPI.getPlayList(
             newPlayList._id,
             (playListResponse) => {
-                if(playListResponse == null || playListResponse.status == responseConstants.FAIL) {
+                if(playListResponse == null) {
+                    this.props.showInfoDialog("Cannot connect to service!", infoStates.STATE_ERROR);
+
+                    return;
+                }
+
+                if(playListResponse.status == responseConstants.FAIL) {
+                    this.props.showInfoDialog("Cannot get the play list from service!", infoStates.STATE_ERROR);
+
                     return;
                 }
 
@@ -63,14 +72,30 @@ export default class MainGrid extends React.Component {
     componentDidMount() {
         playListAPI.getAllPlayLists(
             (allPlayListsResponse) => {
-                if(allPlayListsResponse == null || allPlayListsResponse.status == responseConstants.FAIL) {
+                if(allPlayListsResponse == null) {
+                    this.props.showInfoDialog("Cannot connect to service!", infoStates.STATE_ERROR);
+
+                    return;
+                }
+
+                if(allPlayListsResponse.status == responseConstants.FAIL) {
+                    this.props.showInfoDialog("Cannot get play lists from service!", infoStates.STATE_ERROR);
+
                     return;
                 }
 
                 playListAPI.getPlayList(
                     allPlayListsResponse.playLists[0]._id,
                     (playListResponse) => {
-                        if(playListResponse == null || playListResponse.status == responseConstants.FAIL) {
+                        if(playListResponse == null) {
+                            this.props.showInfoDialog("Cannot connect to service!", infoStates.STATE_ERROR);
+
+                            return;
+                        }
+
+                        if(playListResponse.status == responseConstants.FAIL) {
+                            this.props.showInfoDialog("Cannot get the play list from service!", infoStates.STATE_ERROR);
+
                             return;
                         }
 
@@ -93,7 +118,15 @@ export default class MainGrid extends React.Component {
             playListAPI.createPlayList(
                 this.props.createListName,
                 (playListResponse) => {
-                    if(playListResponse == null || playListResponse.status == responseConstants.FAIL) {
+                    if(playListResponse == null) {
+                        this.props.showInfoDialog("Cannot connect to service!", infoStates.STATE_ERROR);
+
+                        return;
+                    }
+
+                    if(playListResponse.status == responseConstants.FAIL) {
+                        this.props.showInfoDialog("Cannot get the play list from service!", infoStates.STATE_ERROR);
+
                         return;
                     }
 
@@ -123,13 +156,17 @@ export default class MainGrid extends React.Component {
 
     deletePlayList(playListID) {
         if(playListID == null || playListID == "") {
+            this.props.showInfoDialog("Play list ID cannot be left blank!", infoStates.STATE_ERROR);
+
             return;
         }
 
         playListAPI.deletePlayList(
             playListID,
             (dataResponse) => {
-                if(dataResponse.status == responseConstants.SUCCESS) {
+                if(dataResponse == null) {
+                    this.props.showInfoDialog("Cannot connect to service!", infoStates.STATE_ERROR);
+                } else if(dataResponse.status == responseConstants.SUCCESS) {
                     this.changePlayList(this.state.playLists[0]);
 
                     this.setState(
@@ -145,6 +182,10 @@ export default class MainGrid extends React.Component {
                             );
                         }
                     );
+
+                    this.props.showInfoDialog("Play list deleted successfully.", infoStates.STATE_INFO);
+                } else {
+                    this.props.showInfoDialog("Play list deletion failed!", infoStates.STATE_ERROR);
                 }
             }
         );
@@ -162,6 +203,8 @@ export default class MainGrid extends React.Component {
 
     deleteAudioFromPlayList(playListID, audioID) {
         if(playListID == null || playListID == "" || audioID == null || audioID == "") {
+            this.props.showInfoDialog("Play list ID and audio ID cannot be left blank!", infoStates.STATE_ERROR);
+
             return;
         }
 
@@ -169,7 +212,9 @@ export default class MainGrid extends React.Component {
             playListID, 
             audioID,
             (dataResponse) => {
-                if(dataResponse.status == responseConstants.SUCCESS) {
+                if(dataResponse == null) {
+                    this.props.showInfoDialog("Cannot connect to service!", infoStates.STATE_ERROR);
+                } else if(dataResponse.status == responseConstants.SUCCESS) {
                     this.setState(
                         (prevState) => {
                             prevState.currentAudios = prevState.currentAudios.filter(
@@ -183,6 +228,10 @@ export default class MainGrid extends React.Component {
                             );
                         }
                     );
+
+                    this.props.showInfoDialog("Audio deleted from the list successfully.", infoStates.STATE_INFO);
+                } else {
+                    this.props.showInfoDialog("Deletion audio from list failed!", infoStates.STATE_ERROR);
                 }
             }
         );
@@ -190,13 +239,23 @@ export default class MainGrid extends React.Component {
 
     addAudioToPlayList(playListID, audioID) {
         if(playListID == null || playListID == "" || audioID == null || audioID == "") {
+            this.props.showInfoDialog("Play list ID and audio ID cannot be left blank!", infoStates.STATE_ERROR);
+
             return;
         }
 
         playListAPI.addAudioToPlayList(
             playListID, 
             audioID,
-            (dataResponse) => {}
+            (dataResponse) => {
+                if(dataResponse == null) {
+                    this.props.showInfoDialog("Cannot connect to service!", infoStates.STATE_ERROR);
+                } else if(dataResponse.status == responseConstants.SUCCESS) {
+                    this.props.showInfoDialog("Audio added to the list successfully.", infoStates.STATE_INFO);
+                } else {
+                    this.props.showInfoDialog("Adding audio to list failed!", infoStates.STATE_ERROR);
+                }
+            }
         );
     }
 
