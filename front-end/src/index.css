@@ -1,3 +1,5 @@
+/* prefixed by https://autoprefixer.github.io (PostCSS: v7.0.26, autoprefixer: v9.7.3) */
+
 html {
     font-family: 'Quicksand', sans-serif;
 }
@@ -14,12 +16,15 @@ html, body {
     left: 0;
     width: 100%;
     padding: 25px 25px 25px 25px;
+    display: -ms-grid;
     display: grid;
-    grid-template-areas: "buttons-area volume-area seek-area";
+        grid-template-areas: "buttons-area volume-area seek-area";
+    -ms-grid-columns: auto 30px auto 30px 1fr;
     grid-template-columns: auto auto 1fr;
     gap: 30px;
     background-color: #30475e;
-    box-shadow: 0px -1px 10px 3px rgba(0, 0, 0, 0.4);
+    -webkit-box-shadow: 0px -1px 10px 3px rgba(0, 0, 0, 0.4);
+            box-shadow: 0px -1px 10px 3px rgba(0, 0, 0, 0.4);
 }
 
 .player-buttons {
@@ -40,9 +45,15 @@ html, body {
 }
 
 #buttons-container {
+    -ms-grid-row: 1;
+    -ms-grid-column: 1;
     grid-area: buttons-area;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    align-items: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
 }
 
 #buttons-container > div:first-child {
@@ -54,19 +65,32 @@ html, body {
 }
 
 #buttons-container > div:nth-child(2) {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
 }
 
 #buttons-container > div:nth-child(2) > div:last-child {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    align-items: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
     margin-top: 10px;
     min-width: 75px;
 }
 
 #volume-container {
+    -ms-grid-row: 1;
+    -ms-grid-column: 3;
     grid-area: volume-area;
 }
 
@@ -83,22 +107,41 @@ html, body {
     width: 9px;
     height: 9px;
     border-radius: 100%;
-    transform: scale(3);
+    -webkit-transform: scale(3);
+        -ms-transform: scale(3);
+            transform: scale(3);
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
     position: relative;
 }
 
 .slider > svg {
-    transform: scale(0.3) translate(-1px, -1px);
+    -webkit-transform: scale(0.3) translate(-1px, -1px);
+        -ms-transform: scale(0.3) translate(-1px, -1px);
+            transform: scale(0.3) translate(-1px, -1px);
 }
 
 #seek-container {
+    -ms-grid-row: 1;
+    -ms-grid-column: 5;
     grid-area: seek-area;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: space-evenly;
+        -ms-flex-pack: space-evenly;
+            justify-content: space-evenly;
 }
 
 #seek-container > div:first-child {
@@ -109,6 +152,8 @@ html, body {
 }
 
 #seek-container > div:nth-child(2) {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     color: white;
     font-weight: 300;
@@ -176,21 +221,36 @@ button[class*="button-on"]:active {
     width: 175px;
     height: 175px;
     z-index: 10;
-    box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.4);
+    -webkit-box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.4);
+            box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.4);
 }
 
 #album-cover > img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    -o-object-fit: cover;
+       object-fit: cover;
 }
 
 #main-grid {
+    display: -ms-grid;
     display: grid;
+    -ms-grid-columns: 1fr 4fr;
     grid-template-columns: 1fr 4fr;
+    -ms-grid-rows: 100%;
     grid-template-rows: 100%;
     height: 100vh;
     padding-bottom: 130px;
+}
+
+#main-grid > *:nth-child(1) {
+    -ms-grid-row: 1;
+    -ms-grid-column: 1;
+}
+
+#main-grid > *:nth-child(2) {
+    -ms-grid-row: 1;
+    -ms-grid-column: 2;
 }
 
 #main-grid > div:first-child {
@@ -202,9 +262,15 @@ button[class*="button-on"]:active {
     text-align: center;
     font-weight: 700;
     margin-bottom: 10px;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
 }
 
 #main-grid > div:first-child > div:first-child > button {
@@ -233,7 +299,9 @@ button[class*="button-on"]:active {
 #main-grid > div:last-child > div:first-child {
     font-weight: 700;
     margin-bottom: 10px;
+    display: -ms-grid;
     display: grid;
+    -ms-grid-columns: 1fr 2fr 1fr 0.5fr;
     grid-template-columns: 1fr 2fr 1fr 0.5fr;
     padding-left: 10px;
     padding-right: 10px;
@@ -254,7 +322,9 @@ button[class*="button-on"]:active {
 
 .audio-details {
     padding: 10px;
+    display: -ms-grid;
     display: grid;
+    -ms-grid-columns: 1fr 2fr 1fr 0.5fr;
     grid-template-columns: 1fr 2fr 1fr 0.5fr;
 }
 
@@ -273,9 +343,16 @@ button[class*="button-on"]:active {
     height: 100%;
     background-color: rgba(255, 255, 255, 0.5);
     z-index: 20;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
 }
 
 #create-play-list-dialog > input {
@@ -307,7 +384,8 @@ h1 {
     width: 75px;
     height: 30px;
     border: none;
-    box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.5);
+            box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.5);
 }
 
 #create-play-list-dialog > div > button:first-child:hover {
@@ -328,7 +406,8 @@ h1 {
     width: 75px;
     height: 30px;
     border: 1px solid rgba(0, 0, 0, 0.5);
-    box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.5);
+            box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.5);
 }
 
 #create-play-list-dialog > div > button:last-child:hover {
@@ -344,7 +423,8 @@ h1 {
 #context-menu {
     position: fixed;
     background-color: white;
-    box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.4);
+    -webkit-box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.4);
+            box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.4);
 }
 
 .menu-item {
@@ -380,13 +460,25 @@ hr {
     color: white;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
     z-index: 30;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.4);
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.4);
+            box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.4);
 }
 
 #info-dialog > svg {
@@ -418,7 +510,8 @@ hr {
     background-color: #30475e;
     color: white;
     font-weight: bold;
-    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.4);
+    -webkit-box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.4);
+            box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.4);
 }
 
 .active:hover {
@@ -426,7 +519,8 @@ hr {
 }
 
 * {
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
 }
 
 *:focus {

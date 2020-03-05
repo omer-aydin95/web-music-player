@@ -125,7 +125,7 @@ export default class MainGrid extends React.Component {
                     }
 
                     if(playListResponse.status == responseConstants.FAIL) {
-                        this.props.showInfoDialog("Cannot get the play list from service!", infoStates.STATE_ERROR);
+                        this.props.showInfoDialog("Creation of the play list failed!", infoStates.STATE_ERROR);
 
                         return;
                     }
@@ -139,6 +139,8 @@ export default class MainGrid extends React.Component {
                             });
                         }
                     );
+
+					this.props.showInfoDialog("Play list created successfully.", infoStates.STATE_INFO);
                 }
             );
         }
